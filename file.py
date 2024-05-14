@@ -46,21 +46,27 @@ def main():
     use_of_net_map = {"Yes": 1, "No": 0}
 
     # Create a DataFrame for prediction
-    input_data = pd.DataFrame({
-        "Value_Yes": [value_map[value]],
-        "Malaria Parasite_Yes": [malaria_parasite_map[malaria_parasite]],
-        "Typhoid_Yes": [typhoid_map[typhoid]],
-        "Residential area_Rural": [residential_area_map[residential_area]],
-        "Nearness to bush_Yes": [nearness_to_bush_map[nearness_to_bush]],
-        "Closeness to stagnant water or uncovered gutter_Not close": [closeness_to_water_map[closeness_to_water]],
-        "Use of Mosquito repellant?_Frequently": [use_of_repellant_map[use_of_repellant]],
-        "Use of Mosquito repellant?_Never": [use_of_repellant_map[use_of_repellant]],
-        "Use of Mosquito Net_Yes": [use_of_net_map[use_of_net]]
+    input_data_igg = pd.DataFrame({
+        "Risk Factor_Blood transfusion": [value_map[value]],
+        "Risk Factor_Malaria Parasite": [malaria_parasite_map[malaria_parasite]],
+        "Risk Factor_Typhoid": [typhoid_map[typhoid]],
+        "Risk Factor_Residential area_Rural": [residential_area_map[residential_area]],
+        "Risk Factor_Nearness to bush": [nearness_to_bush_map[nearness_to_bush]],
+        "Risk Factor_Closeness to stagnant water or uncovered gutter_Not close": [closeness_to_water_map[closeness_to_water]],
+        "Risk Factor_Use of Mosquito repellant?_Frequently": [use_of_repellant_map[use_of_repellant]],
+        "Risk Factor_Use of Mosquito repellant?_Never": [use_of_repellant_map[use_of_repellant]],
+        "Risk Factor_Use of Mosquito Net_Yes": [use_of_net_map[use_of_net]]
     })
 
+    input_data_igm = input_data_igg.copy()  # Create a copy of input_data_igg for IgM prediction
+
+    # Get feature names
+    feature_names_igg = input_data_igg.columns
+    feature_names_igm = input_data_igm.columns
+
     # Make predictions
-    prediction_igg = predict_igg(input_data)
-    prediction_igm = predict_igm(input_data)
+    prediction_igg = predict_igg(input_data_igg)
+    prediction_igm = predict_igm(input_data_igm)
 
     st.write("### Prediction Results:")
     st.write("#### IgG Positive Percentage:", prediction_igg[0])
