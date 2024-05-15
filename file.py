@@ -11,7 +11,6 @@ def load_models():
     return model_igg, model_igm
 
 def user_input_features():
-    # Create input fields for each feature used in your model
     st.sidebar.header('User Input Features')
     
     risk_factor = st.sidebar.selectbox('Risk Factor', ('Blood transfusion', 'Malaria Parasite', 'Typhoid', 'Residential area', 'Nearness to bush', 'Closeness to stagnant water or uncovered gutter', 'Use of Mosquito repellant?', 'Use of Mosquito Net'))
@@ -26,8 +25,7 @@ def user_input_features():
     ci_upper_igm = st.sidebar.number_input('CI Upper IgM', value=1.0)
     p_value_igm = st.sidebar.number_input('p-value IgM', value=0.05)
     
-    # Combine input features into a dataframe
-    data = {'Risk Factor_Total': risk_factor,
+    data = {'Risk Factor': risk_factor,
             'Value': value,
             'n': n,
             'OR IgG': or_igg,
@@ -42,24 +40,28 @@ def user_input_features():
     return features
 
 def preprocess_input(df):
-    # Convert categorical variables into dummy/indicator variables
+    st.write("Preprocessing Input DataFrame:")
+    st.write(df)
+    
     df = pd.get_dummies(df, columns=['Value'], drop_first=True)
+    st.write("After creating dummies for 'Value':")
+    st.write(df)
+    
     df = pd.get_dummies(df, columns=['Risk Factor'], drop_first=True)
+    st.write("After creating dummies for 'Risk Factor':")
+    st.write(df)
+    
     return df
 
 def main():
     st.title("IgG and IgM Prediction")
     
-    # Load models
     model_igg, model_igm = load_models()
     
-    # Get user input
     input_df = user_input_features()
     
-    # Preprocess user input
     input_processed = preprocess_input(input_df)
     
-    # Align input features with training data
     model_features = pd.DataFrame(columns=['n', 'OR IgG', 'CI Lower IgG', 'CI Upper IgG', 'p-value IgG', 'OR IgM', 'CI Lower IgM', 'CI Upper IgM', 'p-value IgM',
                                            'Value_No', 'Value_Rural', 'Value_Urban', 'Value_Frequently', 'Value_Rarely', 'Value_Never',
                                            'Value_Not close', 'Value_Very close',
@@ -67,7 +69,6 @@ def main():
                                            'Risk Factor_Closeness to stagnant water or uncovered gutter', 'Risk Factor_Use of Mosquito repellant?', 'Risk Factor_Use of Mosquito Net'])
     input_processed = pd.concat([input_processed, model_features]).fillna(0).head(1)
     
-    # Make predictions
     pred_igg = model_igg.predict(input_processed)
     pred_igm = model_igm.predict(input_processed)
     
