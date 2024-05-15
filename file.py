@@ -47,15 +47,15 @@ def main():
 
     # Create a DataFrame for prediction
     input_data_igg = pd.DataFrame({
-        "Risk Factor_Blood transfusion": [value_map[value]],
+        "": [value_map[value]],
         "Risk Factor_Malaria Parasite": [malaria_parasite_map[malaria_parasite]],
         "Risk Factor_Typhoid": [typhoid_map[typhoid]],
-        "Risk Factor_Residential area_Rural": [residential_area_map[residential_area]],
+        "Risk Factor_Residential area": [residential_area_map[residential_area]],
         "Risk Factor_Nearness to bush": [nearness_to_bush_map[nearness_to_bush]],
-        "Risk Factor_Closeness to stagnant water or uncovered gutter_Not close": [closeness_to_water_map[closeness_to_water]],
-        "Risk Factor_Use of Mosquito repellant?_Frequently": [use_of_repellant_map[use_of_repellant]],
+        "Risk Factor_Closeness to stagnant water or uncovered gutter": [closeness_to_water_map[closeness_to_water]],
+        "Risk Factor_Use of Mosquito repellant?": [use_of_repellant_map[use_of_repellant]],
         "Risk Factor_Use of Mosquito repellant?_Never": [use_of_repellant_map[use_of_repellant]],
-        "Risk Factor_Use of Mosquito Net_Yes": [use_of_net_map[use_of_net]],
+        "Risk Factor_Use of Mosquito Net": [use_of_net_map[use_of_net]],
         "95% CI IgG": [0],
         "95% CI IgM": [0],
         "OR IgG": [0],
@@ -63,7 +63,6 @@ def main():
         "p-value IgG": [0],
         "p-value IgM": [0]
     })
-
     input_data_igm = input_data_igg.copy()  # Create a copy of input_data_igg for IgM prediction
 
     # Get feature names
