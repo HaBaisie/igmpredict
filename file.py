@@ -55,13 +55,7 @@ def main():
         "Risk Factor_Closeness to stagnant water or uncovered gutter_Not close": [closeness_to_water_map[closeness_to_water]],
         "Risk Factor_Use of Mosquito repellant?_Frequently": [use_of_repellant_map[use_of_repellant]],
         "Risk Factor_Use of Mosquito repellant?_Never": [use_of_repellant_map[use_of_repellant]],
-        "Risk Factor_Use of Mosquito Net_Yes": [use_of_net_map[use_of_net]],
-        "95% CI IgG": [0],
-        "95% CI IgM": [0],
-        "OR IgG": [0],
-        "OR IgM": [0],
-        "p-value IgG": [0],
-        "p-value IgM": [0]
+        "Risk Factor_Use of Mosquito Net_Yes": [use_of_net_map[use_of_net]]
     })
 
     input_data_igm = input_data_igg.copy()  # Create a copy of input_data_igg for IgM prediction
