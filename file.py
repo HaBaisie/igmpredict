@@ -27,18 +27,17 @@ def user_input_features():
     p_value_igm = st.sidebar.number_input('p-value IgM', value=0.05)
     
     # Combine input features into a dataframe
-    data = {'Risk Factor': risk_factor,
+    data = {'Risk Factor_Total': risk_factor,
             'Value': value,
             'n': n,
             'OR IgG': or_igg,
-            'CI Lower IgG': ci_lower_igg,
-            'CI Upper IgG': ci_upper_igg,
+            'CI_Lower_IgG': ci_lower_igg,
+            'CI_Upper_IgG': ci_upper_igg,
             'p-value IgG': p_value_igg,
             'OR IgM': or_igm,
-            'CI Lower IgM': ci_lower_igm,
-            'CI Upper IgM': ci_upper_igm,
+            'CI_Lower_IgM': ci_lower_igm,
+            'CI_Upper_IgM': ci_upper_igm,
             'p-value IgM': p_value_igm}
-    
     features = pd.DataFrame(data, index=[0])
     return features
 
