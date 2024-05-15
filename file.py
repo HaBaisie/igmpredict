@@ -26,9 +26,7 @@ def user_input_features():
     p_value_igm = st.sidebar.number_input('p-value IgM', value=0.05)
     
     data = {'Risk Factor': risk_factor,
-            'Risk Factor_Total': risk_factor,
             'Value': value,
-            'Value_Yes': value,
             'n': n,
             'OR IgG': or_igg,
             'CI_Lower_IgG': ci_lower_igg,
@@ -42,17 +40,7 @@ def user_input_features():
     return features
 
 def preprocess_input(df):
-    st.write("Preprocessing Input DataFrame:")
-    st.write(df)
-    
-    df = pd.get_dummies(df, columns=['Value'], drop_first=True)
-    st.write("After creating dummies for 'Value':")
-    st.write(df)
-    
-    df = pd.get_dummies(df, columns=['Risk Factor'], drop_first=True)
-    st.write("After creating dummies for 'Risk Factor':")
-    st.write(df)
-    
+    df = pd.get_dummies(df, columns=['Value', 'Risk Factor'], drop_first=True)
     return df
 
 def main():
@@ -64,12 +52,18 @@ def main():
     
     input_processed = preprocess_input(input_df)
     
-    model_features = pd.DataFrame(columns=['n', 'OR IgG', 'CI_Lower_IgG', 'CI_Upper_IgG', 'p-value IgG', 'OR IgM', 'CI_Lower_IgM', 'CI_Upper_IgM', 'p-value IgM',
-                                           'Value_No', 'Value_Rural', 'Value_Urban', 'Value_Frequently', 'Value_Rarely', 'Value_Never',
-                                           'Value_Not close', 'Value_Very close',
-                                           'Risk Factor_Malaria Parasite', 'Risk Factor_Typhoid', 'Risk Factor_Residential area', 'Risk Factor_Nearness to bush', 
-                                           'Risk Factor_Closeness to stagnant water or uncovered gutter', 'Risk Factor_Use of Mosquito repellant?', 'Risk Factor_Use of Mosquito Net'])
-    input_processed = pd.concat([input_processed, model_features]).fillna(0).head(1)
+    model_features = pd.DataFrame(columns=['n', 'OR IgG', 'p-value IgG', 'OR IgM', 'p-value IgM', 
+                                           'Value_Frequently', 'Value_Never', 'Value_No', 'Value_Not close', 'Value_Rarely',
+                                           'Value_Rural', 'Value_Urban', 'Value_Very close', 'Risk Factor_Blood transfusion',
+                                           'Risk Factor_Closeness to stagnant water or uncovered gutter', 'Risk Factor_Malaria Parasite',
+                                           'Risk Factor_Nearness to bush', 'Risk Factor_Residential area', 'Risk Factor_Typhoid',
+                                           'Risk Factor_Use of Mosquito Net', 'Risk Factor_Use of Mosquito repellant?',
+                                           'CI_Lower_IgG', 'CI_Upper_IgG', 'CI_Lower_IgM', 'CI_Upper_IgM'])
+    
+    input_processed = pd.concat([input_processed, model_features]).fillna(0).loc[:, model_features.columns]
+
+    st.write("Processed input aligned with model features:")
+    st.write(input_processed)
     
     pred_igg = model_igg.predict(input_processed)
     pred_igm = model_igm.predict(input_processed)
