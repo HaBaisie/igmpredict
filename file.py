@@ -25,8 +25,8 @@ def user_input_features():
     ci_upper_igm = st.sidebar.number_input('CI Upper IgM', value=1.0)
     p_value_igm = st.sidebar.number_input('p-value IgM', value=0.05)
     
-    data = {'Risk Factor': risk_factor,
-            'Value': value,
+    data = {'Risk Factor_Total': risk_factor,
+            'Value_Yes': value,
             'n': n,
             'OR IgG': or_igg,
             'CI_Lower_IgG': ci_lower_igg,
