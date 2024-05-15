@@ -58,21 +58,25 @@ def main():
     
     input_processed = preprocess_input(input_df)
     
-    model_features = pd.DataFrame(columns=[
-        'n', 'OR IgG', 'p-value IgG', 'OR IgM', 'p-value IgM',
-        'Value_Frequently', 'Value_Never', 'Value_No', 'Value_Not close', 'Value_Rarely',
-        'Value_Rural', 'Value_Urban', 'Value_Very close', 'Risk Factor_Malaria Parasite',
-        'Risk Factor_Typhoid', 'Risk Factor_Residential area', 'Risk Factor_Nearness to bush',
-        'Risk Factor_Closeness to stagnant water or uncovered gutter', 'Risk Factor_Use of Mosquito repellant?', 
-        'Risk Factor_Use of Mosquito Net', 'Risk Factor_Total', 'Value_Yes',
-        'CI_Lower_IgG', 'CI_Upper_IgG', 'CI_Lower_IgM', 'CI_Upper_IgM'
-    ])
+    # Define the order and names of features used in the training
+    model_features = [
+        'n', 'OR IgG', 'p-value IgG', 'OR IgM', 'p-value IgM', 'Value_Frequently',
+        'Value_Never', 'Value_No', 'Value_Not close', 'Value_Rarely', 'Value_Rural', 
+        'Value_Urban', 'Value_Very close', 'Risk Factor_Malaria Parasite', 
+        'Risk Factor_Typhoid', 'Risk Factor_Residential area', 'Risk Factor_Nearness to bush', 
+        'Risk Factor_Closeness to stagnant water or uncovered gutter', 
+        'Risk Factor_Use of Mosquito repellant?', 'Risk Factor_Use of Mosquito Net', 
+        'Risk Factor_Total', 'Value_Yes', 'CI_Lower_IgG', 'CI_Upper_IgG', 
+        'CI_Lower_IgM', 'CI_Upper_IgM'
+    ]
     
-    input_processed = pd.concat([input_processed, model_features]).fillna(0).loc[:, model_features.columns]
+    # Create a DataFrame with the model's expected features, filled with zeros
+    input_processed = input_processed.reindex(columns=model_features, fill_value=0)
 
     st.write("Processed input aligned with model features:")
     st.write(input_processed)
     
+    # Make predictions
     pred_igg = model_igg.predict(input_processed)
     pred_igm = model_igm.predict(input_processed)
     
