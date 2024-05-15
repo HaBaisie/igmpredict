@@ -40,39 +40,35 @@ def user_input_features():
     return features
 
 def preprocess_input(df):
-    st.write("Preprocessing Input DataFrame:")
-    st.write(df)
-    
-    df = pd.get_dummies(df, columns=['Value'], drop_first=True)
-    st.write("After creating dummies for 'Value':")
-    st.write(df)
-    
-    df = pd.get_dummies(df, columns=['Risk Factor'], drop_first=True)
-    st.write("After creating dummies for 'Risk Factor':")
-    st.write(df)
-    
+    # Convert categorical variables into dummy/indicator variables
+    df = pd.get_dummies(df, columns=['Value', 'Risk Factor'], drop_first=True)
     return df
 
 def main():
     st.title("IgG and IgM Prediction")
     
+    # Load models
     model_igg, model_igm = load_models()
     
+    # Get user input
     input_df = user_input_features()
     
+    # Preprocess user input
     input_processed = preprocess_input(input_df)
     
     # Make sure to use the same feature order and names as during training
     model_features = pd.DataFrame(columns=['n', 'OR IgG', 'CI_Lower_IgG', 'CI_Upper_IgG', 'p-value IgG', 'OR IgM', 'CI_Lower_IgM', 'CI_Upper_IgM', 'p-value IgM',
                                            'Value_No', 'Value_Rural', 'Value_Urban', 'Value_Frequently', 'Value_Rarely', 'Value_Never',
                                            'Value_Not close', 'Value_Very close',
-                                           'Risk Factor_Malaria Parasite', 'Risk Factor_Typhoid', 'Risk Factor_Residential area', 'Risk Factor_Nearness to bush', 
+                                           'Risk Factor_Blood transfusion', 'Risk Factor_Malaria Parasite', 'Risk Factor_Typhoid', 'Risk Factor_Residential area', 'Risk Factor_Nearness to bush', 
                                            'Risk Factor_Closeness to stagnant water or uncovered gutter', 'Risk Factor_Use of Mosquito repellant?', 'Risk Factor_Use of Mosquito Net'])
+    
     input_processed = pd.concat([input_processed, model_features]).fillna(0).loc[:, model_features.columns]
 
     st.write("Processed input aligned with model features:")
     st.write(input_processed)
     
+    # Make predictions
     pred_igg = model_igg.predict(input_processed)
     pred_igm = model_igm.predict(input_processed)
     
