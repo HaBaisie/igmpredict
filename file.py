@@ -17,12 +17,12 @@ def user_input_features():
     value = st.sidebar.selectbox('Value', ('Yes', 'No', 'Rural', 'Urban', 'Frequently', 'Rarely', 'Never', 'Not close', 'Very close'))
     n = st.sidebar.number_input('n', min_value=0, max_value=200, step=1, value=50)
     or_igg = st.sidebar.number_input('OR IgG', value=1.0)
-    ci_lower_igg = st.sidebar.number_input('CI Lower IgG', value=0.0)
-    ci_upper_igg = st.sidebar.number_input('CI Upper IgG', value=1.0)
+    ci_lower_igg = st.sidebar.number_input('CI_Lower_IgG', value=0.0)
+    ci_upper_igg = st.sidebar.number_input('CI_Upper_IgG', value=1.0)
     p_value_igg = st.sidebar.number_input('p-value IgG', value=0.05)
     or_igm = st.sidebar.number_input('OR IgM', value=1.0)
-    ci_lower_igm = st.sidebar.number_input('CI Lower IgM', value=0.0)
-    ci_upper_igm = st.sidebar.number_input('CI Upper IgM', value=1.0)
+    ci_lower_igm = st.sidebar.number_input('CI_Lower_IgM', value=0.0)
+    ci_upper_igm = st.sidebar.number_input('CI_Upper_IgM', value=1.0)
     p_value_igm = st.sidebar.number_input('p-value IgM', value=0.05)
     
     data = {'Risk Factor': risk_factor,
